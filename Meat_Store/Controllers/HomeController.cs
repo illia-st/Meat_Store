@@ -1,32 +1,25 @@
-﻿using Meat_Store.Models;
+﻿using Meat_Store.ViewModels;
 using Microsoft.AspNetCore.Mvc;
-using System.Diagnostics;
+using Meat_Store.Interfaces;
 
 namespace Meat_Store.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private IAllMeat _meatRepository;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(IAllMeat meatRepository)
         {
-            _logger = logger;
+            _meatRepository = meatRepository;
         }
-
-        public IActionResult Index()
+        public ViewResult AllProducts()
         {
-            return View();
-        }
+            var homemeat = new HomeViewModel()
+            {
+                All_Products = _meatRepository.All_Meat
+            };
 
-        public IActionResult Privacy()
-        {
-            return View();
-        }
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            return View(homemeat);
         }
     }
 }

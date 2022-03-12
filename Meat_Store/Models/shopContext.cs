@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
-namespace Meat_Store.sakila
+namespace Meat_Store.Models
 {
     public partial class shopContext : DbContext
     {

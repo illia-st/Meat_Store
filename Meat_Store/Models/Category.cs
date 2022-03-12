@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Meat_Store.sakila
+namespace Meat_Store.Models
 {
     public partial class Category
     {

@@ -1,7 +1,23 @@
+using Meat_Store;
+using Meat_Store.Models;
+using Microsoft.EntityFrameworkCore;
+using Meat_Store.Interfaces;
+using Meat_Store.Repositories;
+
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddMvc();
+builder.Services.AddMemoryCache();
+builder.Services.AddSession();
+builder.Services.AddControllersWithViews()
+    .AddRazorRuntimeCompilation();
+builder.Services.AddDbContext<shopContext>(option => option.UseSqlServer(
+       builder.Configuration.GetConnectionString("DefaultConnection")
+));
+builder.Services.AddTransient<IAllMeat, MeatRepository>();
 
 var app = builder.Build();
 
@@ -22,6 +38,6 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Home}/{action=AllProducts}/{id?}");
 
 app.Run();

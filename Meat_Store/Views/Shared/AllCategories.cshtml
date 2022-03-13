@@ -1,0 +1,8 @@
+﻿@model Category
+
+<div class="col-lg-4">
+    <h2>@Model.CategoryName</h2>
+    <p>@Model.Description</p>
+    <p><a class="btn btn-warning" asp-conоtroller="" asp-action="addToCart" 
+        asp-route-id="@Model.Id"></a></p>
+</div>

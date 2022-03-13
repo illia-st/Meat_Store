@@ -12,8 +12,8 @@ namespace Meat_Store.Models
 
         public int Id { get; set; }
         public string DeliveryType { get; set; } = null!;
-        public string? DeliveryService { get; set; }
-        public string? City { get; set; }
+        public string DeliveryServise { get; set; } = null!;
+        public string City { get; set; } = null!;
 
         public virtual ICollection<Order> Orders { get; set; }
     }

@@ -7,9 +7,8 @@ namespace Meat_Store.Models
     {
         public Meat()
         {
-            FavouritePositions = new HashSet<FavouritePosition>();
+            FavoutirePositions = new HashSet<FavoutirePosition>();
             OrderDetails = new HashSet<OrderDetail>();
-            ShopCartItems = new HashSet<ShopCartItem>();
         }
 
         public int Id { get; set; }
@@ -17,13 +16,13 @@ namespace Meat_Store.Models
         public string LongDesc { get; set; } = null!;
         public string Img { get; set; } = null!;
         public int Price { get; set; }
-        public int Number { get; set; }
+        public int Portion { get; set; }
         public int CategoryId { get; set; }
         public string Name { get; set; } = null!;
+        public int SizeOfPortion { get; set; }
 
         public virtual Category Category { get; set; } = null!;
-        public virtual ICollection<FavouritePosition> FavouritePositions { get; set; }
+        public virtual ICollection<FavoutirePosition> FavoutirePositions { get; set; }
         public virtual ICollection<OrderDetail> OrderDetails { get; set; }
-        public virtual ICollection<ShopCartItem> ShopCartItems { get; set; }
     }
 }

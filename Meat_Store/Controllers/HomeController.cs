@@ -6,20 +6,9 @@ namespace Meat_Store.Controllers
 {
     public class HomeController : Controller
     {
-        private IAllMeat _meatRepository;
-
-        public HomeController(IAllMeat meatRepository)
+        public ViewResult Home_Page()
         {
-            _meatRepository = meatRepository;
-        }
-        public ViewResult AllProducts()
-        {
-            var homemeat = new HomeViewModel()
-            {
-                All_Products = _meatRepository.All_Meat
-            };
-
-            return View(homemeat);
+            return View();
         }
     }
 }

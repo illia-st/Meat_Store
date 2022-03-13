@@ -14,10 +14,11 @@ builder.Services.AddMemoryCache();
 builder.Services.AddSession();
 builder.Services.AddControllersWithViews()
     .AddRazorRuntimeCompilation();
-builder.Services.AddDbContext<shopContext>(option => option.UseSqlServer(
+builder.Services.AddDbContext<ShopContext>(option => option.UseSqlServer(
        builder.Configuration.GetConnectionString("DefaultConnection")
 ));
 builder.Services.AddTransient<IAllMeat, MeatRepository>();
+builder.Services.AddTransient<IAllCategories, CategoriesRepository>();
 
 var app = builder.Build();
 
@@ -38,6 +39,6 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=AllProducts}/{id?}");
+    pattern: "{controller=Home}/{action=Home_Page}/{id?}");
 
 app.Run();

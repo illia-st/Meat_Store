@@ -1,0 +1,10 @@
+﻿@model Meat
+
+<div class="col-lg-4">
+    <img class="img-thumbnail" src="@Model.Img" alt="@Model.Name" />
+    <h2>@Model.Name</h2>
+    <p>@Model.ShortDesc</p>
+    <p>@Model.Price.ToString("c") за порцію</p>
+    <p><a class="btn btn-warning" asp-conоtroller="ShopCart" asp-action="addToCart" 
+        asp-route-id="@Model.Id">Додати в корзину</a></p>
+</div>

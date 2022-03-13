@@ -5,6 +5,6 @@ namespace Meat_Store.ViewModels
 {
     public class HomeViewModel
     {
-        public IEnumerable<Meat> ?All_Products { get; set; }
+        
     }
 }

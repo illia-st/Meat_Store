@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Meat_Store.Models
 {
-    public partial class FavouritePosition
+    public partial class FavoutirePosition
     {
         public int Id { get; set; }
         public int UserId { get; set; }

@@ -9,26 +9,43 @@ namespace Meat_Store.Controllers
     public class MeatsController : Controller
     {
         private IAllMeat allmeat;
-
-        public MeatsController(IAllMeat allmeat)
+        private IAllCategories allCategories;
+        public MeatsController(IAllMeat allmeat, IAllCategories allCategories)
         {
             this.allmeat = allmeat;
+            this.allCategories = allCategories;
         }
-        [Route("Meats/ListOfProducts")]
-        public ViewResult ListOfProducts(string category)
+        [Route("Categories/ListOfProducts/{category}")]
+        public ViewResult ListOfProducts(int ?category)
         {
+            string message = "Всі страви";
             IEnumerable<Meat> meats;
-            if (String.IsNullOrEmpty(category))
+            meats = allmeat.All_Meat.Where(m => m.CategoryId == category).OrderBy(m => m.Id).ToList();
+            if (meats.Count() == 0)
             {
-                meats = allmeat.All_Meat.OrderBy(x => x.CategoryId).ToList();
+                message = "Відсутні страви цієї категорії";
             }
-            else
+            else 
             {
-                meats = allmeat.Meat_of_category.OrderBy(c => c.CategoryId).ThenBy(c => c.Id);
+                message = allCategories.GetCategory(category).CategoryName;
             }
             var homemeat = new MeatsViewModel()
             {
-                All_Products = meats
+                Message = message,
+                meats = meats
+            };
+            
+            return View(homemeat);
+        }
+        [Route("Meats/FullListOfProducts")]
+        public ViewResult FullListOfProducts()
+        {
+            string message = "Всі страви";
+            IEnumerable<Meat> meats = allmeat.All_Meat.OrderBy(x => x.CategoryId).ToList();
+            var homemeat = new MeatsViewModel()
+            {
+                Message = message,
+                meats = meats
             };
 
             return View(homemeat);

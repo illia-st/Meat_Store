@@ -4,6 +4,7 @@ namespace Meat_Store.ViewModels
 {
     public class MeatsViewModel
     {
-        public IEnumerable<Meat>? All_Products { get; set; }
+        public string Message { get; set; }
+        public IEnumerable<Meat>? meats { get; set; }
     }
 }

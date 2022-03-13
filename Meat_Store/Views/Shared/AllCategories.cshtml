@@ -1,8 +1,8 @@
 ﻿@model Category
 
 <div class="col-lg-4">
-    <h2>@Model.CategoryName</h2>
+    <img class="img-thumbnail" src="@Model.Img" alt="@Model.CategoryName" />
     <p>@Model.Description</p>
-    <p><a class="btn btn-warning" asp-conоtroller="" asp-action="addToCart" 
-        asp-route-id="@Model.Id"></a></p>
+    <p><a class="btn btn-warning" asp-conоtroller="Meats" asp-action="ListOfProducts" 
+        asp-route-id="@Model.Id">Переглянути</a></p>
 </div>

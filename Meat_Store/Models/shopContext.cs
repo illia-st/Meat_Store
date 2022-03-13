@@ -49,6 +49,8 @@ namespace Meat_Store.Models
                 entity.Property(e => e.Description)
                     .HasMaxLength(100)
                     .HasColumnName("description");
+                entity.Property(e => e.Img)
+                    .HasColumnName("img");
             });
 
             modelBuilder.Entity<Delivery>(entity =>

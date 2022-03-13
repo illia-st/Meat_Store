@@ -13,5 +13,6 @@ namespace Meat_Store.Repositories
         }
 
         public IEnumerable<Category> All_Categories => shopContext.Categories;
+        public Category GetCategory(int ?category_id) => All_Categories.First(c => c.Id == category_id);
     }
 }

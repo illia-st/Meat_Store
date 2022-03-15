@@ -1,0 +1,21 @@
+﻿@model ShopCartViewModel
+<a class="container">
+    @{
+        int price = new int();
+        var temp = from cart in Model.shopCart.listShopitems
+                   group cart by cart.Name into grp
+                   select new {Name = grp.Key, Size = grp.Count()};
+        foreach(var el in temp)
+        {
+            var total_price = Model.shopCart.listShopitems.Where(u => u.Name == el.Name).ToList();
+            price += total_price.First().Price * el.Size;
+            <div class="alert alert-warning mt-3">
+                <b>Товар: </b> @el.Name<b>, Кількість: </b> @el.Size<br />
+                <b>Ціна: </b> @((total_price.First().Price * el.Size).ToString("c"))<br />
+            </div>
+        }
+        <b>Загальна ціна: @price.ToString("c")</b>
+    }
+    <hr />
+    <a class= "btn btn-danger" asp-controller="Order" asp-action="CheckOut">Оплатити</a>
+</div>

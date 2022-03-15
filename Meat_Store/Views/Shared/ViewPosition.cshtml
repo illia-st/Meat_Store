@@ -1,0 +1,13 @@
+﻿@model Meat
+<div>
+    <table>
+        <tr>
+            <td class="leftcol"><img class="img-thumbnail" src="@Model.Img" alt="@Model.Name"/></td>
+                <td valign="top">
+                    <p>@Model.LongDesc</p>
+                    <p><a class="btn btn-warning" asp-conоtroller="ShopCart" asp-action="AddToShopCart" 
+                        asp-route-id="@Model.Id">Додати до кошика</a></p>
+            </td>
+        </tr>
+    </table>
+</div>

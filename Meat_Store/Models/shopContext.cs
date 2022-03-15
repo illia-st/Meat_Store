@@ -198,6 +198,11 @@ namespace Meat_Store.Models
                 entity.Property(e => e.MeatId).HasColumnName("meat_id");
 
                 entity.Property(e => e.ShopCartId).HasColumnName("shop_cart_id");
+                
+                entity.Property(e => e.Name).HasColumnName("name");
+
+                entity.Property(e => e.Price).HasColumnName("price");
+
             });
 
             modelBuilder.Entity<User>(entity =>

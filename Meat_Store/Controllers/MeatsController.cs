@@ -50,5 +50,17 @@ namespace Meat_Store.Controllers
 
             return View(homemeat);
         }
+        [Route("Meats/SinglePosition/{meat_id}")]
+        [Route("Categories/ListOfProducts/1/SinglePosition/{meat_id}")]
+        [Route("Categories/ListOfProducts/2/SinglePosition/{meat_id}")]
+        [Route("Categories/ListOfProducts/3/SinglePosition/{meat_id}")]
+        public ViewResult SinglePosition(int meat_id)
+        {
+            var viewProduct = new MeatsViewModel
+            {
+                Product = allmeat.GetProduct(meat_id)
+            };
+            return View(viewProduct);
+        }
     }
 }

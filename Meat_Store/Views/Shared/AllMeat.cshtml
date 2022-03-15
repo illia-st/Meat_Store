@@ -1,10 +1,11 @@
 ﻿@model Meat
 
 <div class="col-lg-4">
-    <a class="btn btn-light" style="position:center;" asp-conоtroller="Home" asp-action="Home_Page">
+    <a class="btn btn-light" style="position:center;" asp-conоtroller="Meats" asp-action="SinglePosition" asp-route-id="@Model.Id">
         <img class="img-thumbnail" src="@Model.Img" alt="@Model.Name" />
     </a>
-    <h2> <a class="btn btn-light" style="position:center;" asp-conоtroller="Home" asp-action="Home_Page">@Model.Name</a></h2>
+    <h2> <a class="btn btn-light" style="position:center;" asp-conоtroller="Meats" asp-action="SinglePosition" 
+        asp-route-id="@Model.Id">@Model.Name</a></h2>
     <p>@Model.ShortDesc</p>
     <p>@Model.Price.ToString("c") за порцію. <b class="portion">В наявності @Model.Portion.ToString() порцій</b></p>
     <p><a class="btn btn-warning" asp-conоtroller="ShopCart" asp-action="addToCart" 

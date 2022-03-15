@@ -14,6 +14,9 @@ namespace Meat_Store.Repositories
         }
         public IEnumerable<Meat> Meat_of_category => shopContext.Meats.Include(c => c.CategoryId);
         public IEnumerable<Meat> All_Meat => shopContext.Meats;
-        public Meat GetProduct(int meat_id) => shopContext.Meats.FirstOrDefault(m => m.Id == meat_id);
-    }
+        public Meat GetProduct(int meat_id)
+        {
+            return shopContext.Meats.FirstOrDefault(m => m.Id == meat_id);
+        }
+    } 
 }

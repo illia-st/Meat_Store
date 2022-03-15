@@ -19,6 +19,11 @@ builder.Services.AddDbContext<ShopContext>(option => option.UseSqlServer(
 ));
 builder.Services.AddTransient<IAllMeat, MeatRepository>();
 builder.Services.AddTransient<IAllCategories, CategoriesRepository>();
+builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+builder.Services.AddScoped(sp => ShopCart.GetCart(sp));
+
+builder.Services.AddMemoryCache();
+builder.Services.AddSession();
 
 var app = builder.Build();
 
@@ -36,6 +41,7 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthorization();
+app.UseSession();
 
 app.MapControllerRoute(
     name: "default",

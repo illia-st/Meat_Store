@@ -19,6 +19,7 @@ builder.Services.AddDbContext<ShopContext>(option => option.UseSqlServer(
 ));
 builder.Services.AddTransient<IAllMeat, MeatRepository>();
 builder.Services.AddTransient<IAllCategories, CategoriesRepository>();
+builder.Services.AddTransient<IAllOrders, OrdersRepository>();
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddScoped(sp => ShopCart.GetCart(sp));
 
@@ -46,5 +47,9 @@ app.UseSession();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Home_Page}/{id?}");
-
+app.MapControllerRoute(
+    name: "modalSuccess",
+    pattern: "{controller=ShopCart}/{action=addToCart}/{id}",
+    defaults: new { controller = "ShopCart", action = "addToCart" });
+    
 app.Run();

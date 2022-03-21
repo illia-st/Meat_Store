@@ -41,7 +41,7 @@ namespace Meat_Store.Models
         public List<ShopCartItem> getShopCartItems()
         {
             var temp = _context.ShopCartItems.Where(c => c.ShopCartId == ShopCartId).ToList();
-            int i = 1;
+            
             return temp;
         }
     }

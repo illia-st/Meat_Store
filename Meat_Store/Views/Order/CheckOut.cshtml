@@ -1,0 +1,64 @@
+﻿@model Order
+<div class="text-center">
+    <main class="form-signin">
+        <h1 class="h3 mb-3 fw-normal">Введіть свої контактні дані</h1>
+        <form asp-action="CheckOut" method="post">
+            <div class="form-floating mb-3">
+              <input type="text" asp-for="Name" class="form-control" placeholder="Щось" style="
+                width: 100%;
+                max-width: 426px;
+                margin: 0 auto;
+                "
+              >
+              <span asp-validation-for="Name" class="text-danger"></span>
+              <label asp-for="Name" style="
+                float: none;
+                width: 100%;"
+              >Ім'я</label>
+            </div>
+        
+            <div class="form-floating mb-3">
+              <input type="text" asp-for="Surname" class="form-control" id="floatingInput" placeholder="Щось" style="
+                width: 100%;
+                max-width: 426px;
+                margin: 0 auto;
+                "
+              >
+              <span asp-validation-for="Surname" class="text-danger"></span>
+              <label asp-for="Surname" for="floatingInput" style="
+                float: none;
+                width: 100%;"
+              >Прізвище</label>
+            </div>
+        
+            <div class="form-floating mb-3">
+              <input type="tel" asp-for="PhoneNumber" class="form-control" id="floatingInput" placeholder="Щось" style="
+                width: 100%;
+                max-width: 426px;
+                margin: 0 auto;
+                "
+              >
+              <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+              <label asp-for="PhoneNumber" for="floatingInput" style="
+                float: none;
+                width: 100%;"
+              >Номер телефона</label>
+            </div>
+        
+            <div class="form-floating mb-3">
+              <input type="email" asp-for="Email" class="form-control" id="floatingInput" placeholder="name@example.com" style="
+                width: 100%;
+                max-width: 426px;
+                margin: 0 auto;
+                "
+              >
+              <span asp-validation-for="Email" class="text-danger"></span>
+              <label asp-for="Email" for="floatingInput" style="
+                float: none;
+                width: 100%;"
+              >Email</label>
+            </div>
+            <a class="btn btn-success" asp-controller="Order" asp-action="CheckOut" asp-route-id="@Model">Оформити</a>
+        </form>
+    </main>
+</div>

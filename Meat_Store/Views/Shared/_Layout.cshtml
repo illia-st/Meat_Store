@@ -6,6 +6,7 @@
     <link href="~/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
     <link href="~/css/site.css" rel="stylesheet" type="text/css" />
     <link href="~/css/style.css" rel="stylesheet" type="text/css" />
+    <link href="~/css/bootstrap.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
     <header style = "
@@ -29,6 +30,9 @@
                         <li class="nav-item">
                             <a class="nav-link" asp-controller="Categories" asp-action="ViewCategories">Категорії</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="ShopCart" asp-action="Index">Кошик</a>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -42,5 +46,7 @@
     </footer>
     <script src="~/js/bootstrap.min.js"></script>
     <script src="~/js/scripts.js"></script>
+    <script src="~/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/jquery-3.6.0.min.js"></script>
 </body>
 </html>

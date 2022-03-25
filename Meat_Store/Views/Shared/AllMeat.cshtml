@@ -8,6 +8,13 @@
         asp-route-id="@Model.Id">@Model.Name</a></h2>
     <p>@Model.ShortDesc</p>
     <p>@Model.Price.ToString("c") за порцію. <b class="portion">В наявності @Model.Portion.ToString() порцій</b></p>
+    <p>Порцій <select>@{
+            foreach(int i = 0; i < @Model.Portion; ++i){
+                
+            }
+        }
+        </select>
+    </p>
     <p><a class="btn btn-warning" asp-conоtroller="ShopCart" asp-action="addToCart" 
         asp-route-id="@Model.Id">Додати в корзину</a></p>
 </div>    

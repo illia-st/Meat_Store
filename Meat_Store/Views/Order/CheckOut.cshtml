@@ -1,64 +1,85 @@
-﻿@model Order
+﻿@model DeliveryViewModel
 <div class="text-center">
     <main class="form-signin">
         <h1 class="h3 mb-3 fw-normal">Введіть свої контактні дані</h1>
         <form asp-action="CheckOut" method="post">
             <div class="form-floating mb-3">
-              <input type="text" asp-for="Name" class="form-control" placeholder="Щось" style="
+              <input type="text" asp-for="@Model.order.Name" class="form-control" placeholder="Щось" style="
                 width: 100%;
                 max-width: 426px;
                 margin: 0 auto;
                 "
               >
-              <span asp-validation-for="Name" class="text-danger"></span>
-              <label asp-for="Name" style="
+              <span asp-validation-for="@Model.order.Name" class="text-danger"></span>
+              <label asp-for="@Model.order.Name" style="
                 float: none;
                 width: 100%;"
               >Ім'я</label>
             </div>
         
             <div class="form-floating mb-3">
-              <input type="text" asp-for="Surname" class="form-control" id="floatingInput" placeholder="Щось" style="
+              <input type="text" asp-for="@Model.order.Surname" class="form-control" id="floatingInput" placeholder="Щось" style="
                 width: 100%;
                 max-width: 426px;
                 margin: 0 auto;
                 "
               >
-              <span asp-validation-for="Surname" class="text-danger"></span>
-              <label asp-for="Surname" for="floatingInput" style="
+              <span asp-validation-for="@Model.order.Surname" class="text-danger"></span>
+              <label asp-for="@Model.order.Surname" for="floatingInput" style="
                 float: none;
                 width: 100%;"
               >Прізвище</label>
             </div>
         
             <div class="form-floating mb-3">
-              <input type="tel" asp-for="PhoneNumber" class="form-control" id="floatingInput" placeholder="Щось" style="
+              <input type="tel" asp-for="@Model.order.PhoneNumber" class="form-control" id="floatingInput" placeholder="Щось" style="
                 width: 100%;
                 max-width: 426px;
                 margin: 0 auto;
                 "
               >
-              <span asp-validation-for="PhoneNumber" class="text-danger"></span>
-              <label asp-for="PhoneNumber" for="floatingInput" style="
+              <span asp-validation-for="@Model.order.PhoneNumber" class="text-danger"></span>
+              <label asp-for="@Model.order.PhoneNumber" for="floatingInput" style="
                 float: none;
                 width: 100%;"
               >Номер телефона</label>
             </div>
         
             <div class="form-floating mb-3">
-              <input type="email" asp-for="Email" class="form-control" id="floatingInput" placeholder="name@example.com" style="
+              <input type="email" asp-for="@Model.order.Email" class="form-control" id="floatingInput" placeholder="name@example.com" style="
                 width: 100%;
                 max-width: 426px;
                 margin: 0 auto;
                 "
               >
-              <span asp-validation-for="Email" class="text-danger"></span>
-              <label asp-for="Email" for="floatingInput" style="
+              <span asp-validation-for="@Model.order.Email" class="text-danger"></span>
+              <label asp-for="@Model.order.Email" for="floatingInput" style="
                 float: none;
                 width: 100%;"
               >Email</label>
             </div>
-            <a class="btn btn-success" asp-controller="Order" asp-action="CheckOut" asp-route-id="@Model">Оформити</a>
+            <select asp-for="@Model.delivery.DeliveryServise">
+                <option value="Self">Самовивіз</option>
+                <option value="Delivery">Доставка</option>
+            </select>
+            <select asp-for="@Model.delivery.DeliveryType">
+                <option value="1">Нова пошта</option>
+                <option value="2">Укр пошта</option>
+            </select>
+            <div class="form-floating mb-3">
+                  <input type="text" asp-for="@Model.delivery.City" class="form-control" placeholder="Щось" style="
+                    width: 100%;
+                    max-width: 426px;
+                    margin: 0 auto;
+                    "
+                  >
+                  <span asp-validation-for="@Model.delivery.City" class="text-danger"></span>
+                  <label asp-for="@Model.delivery.City" style="
+                    float: none;
+                    width: 100%;"
+                  >Місто</label>
+                </div>    
+            <input class="btn btn-success" type="submit" value="Оформити"/>
         </form>
     </main>
 </div>

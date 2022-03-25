@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace Meat_Store.Models
 {
@@ -68,8 +65,9 @@ namespace Meat_Store.Models
                     .HasColumnName("delivery_servise");
 
                 entity.Property(e => e.DeliveryType)
-                    .HasMaxLength(100)
-                    .HasColumnName("delivery_type");
+                    .HasColumnName("delivery_type_id");
+
+                entity.Property(e => e.OrderTime).HasColumnName("order_time");
             });
 
             modelBuilder.Entity<FavoutirePosition>(entity =>
@@ -129,7 +127,7 @@ namespace Meat_Store.Models
 
             modelBuilder.Entity<Order>(entity =>
             {
-                entity.ToTable("order");
+                entity.ToTable("ordering");
 
                 entity.Property(e => e.Id).HasColumnName("id");
 
@@ -158,12 +156,12 @@ namespace Meat_Store.Models
                 entity.HasOne(d => d.Delivery)
                     .WithMany(p => p.Orders)
                     .HasForeignKey(d => d.DeliveryId)
-                    .HasConstraintName("FK_order_delivery");
+                    .HasConstraintName("FK_ordering_delivery");
 
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.Orders)
                     .HasForeignKey(d => d.UserId)
-                    .HasConstraintName("FK_order_user");
+                    .HasConstraintName("FK_ordering_buyer");
             });
 
             modelBuilder.Entity<OrderDetail>(entity =>
@@ -186,7 +184,7 @@ namespace Meat_Store.Models
                 entity.HasOne(d => d.Order)
                     .WithMany(p => p.OrderDetails)
                     .HasForeignKey(d => d.OrderId)
-                    .HasConstraintName("FK_order_detail_order");
+                    .HasConstraintName("FK_ordering_detail_order");
             });
 
             modelBuilder.Entity<ShopCartItem>(entity =>
@@ -207,7 +205,7 @@ namespace Meat_Store.Models
 
             modelBuilder.Entity<User>(entity =>
             {
-                entity.ToTable("user");
+                entity.ToTable("buyer");
 
                 entity.Property(e => e.Id).HasColumnName("id");
 

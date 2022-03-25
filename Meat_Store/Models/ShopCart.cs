@@ -44,5 +44,15 @@ namespace Meat_Store.Models
             
             return temp;
         }
+        public void ClearShopCart()
+        {
+            var items = _context.ShopCartItems.Where(c => c.ShopCartId == ShopCartId);
+            foreach(var item in items)
+            {
+                _context.ShopCartItems.Remove(item);
+            }
+            _context.SaveChanges();
+            this.listShopitems.Clear();
+        }
     }
 }

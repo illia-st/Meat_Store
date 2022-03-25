@@ -1,5 +1,6 @@
 ﻿using Meat_Store.Interfaces;
 using Meat_Store.Models;
+using Meat_Store.ViewModels;
 
 namespace Meat_Store.Repositories
 {
@@ -16,19 +17,25 @@ namespace Meat_Store.Repositories
 
         public IEnumerable<Meat> GetOrder { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
-        public bool CreateOrder(Order order)// контролити кількість продукції
+        public bool CreateOrder(Order order, Delivery delivery)// контролити кількість продукції
         {
+            shopCart.listShopitems = shopCart.getShopCartItems();
             var items = shopCart.listShopitems.ToList();
             var order_elements = new Dictionary<int, int>();
             var table_elements = new Dictionary<int, int>();
             foreach (var item in items)
             {
-                order_elements[item.Id] += 1;
+                if (!order_elements.ContainsKey(item.MeatId))
+                {
+                    order_elements.Add(item.MeatId, 1);
+                    continue;
+                }
+                order_elements[item.MeatId] += 1;
             }
-            foreach(var item in order_elements)
+            foreach (var item in order_elements)
             {
                 table_elements[item.Key] = _shopContext.Meats.FirstOrDefault(m => m.Id == item.Key).Portion;
-                if(item.Value > table_elements[item.Key])
+                if (item.Value > table_elements[item.Key])
                 {
                     return false;
                 }
@@ -39,20 +46,17 @@ namespace Meat_Store.Repositories
                 _shopContext.SaveChanges();
             }
             order.OrderTime = System.DateTime.Now;
+            delivery.OrderTime = System.DateTime.Now;
+
+            _shopContext.Deliveries.Add(delivery);
+            _shopContext.SaveChanges();
+
+            order.DeliveryId = _shopContext.Deliveries.FirstOrDefault(d => d.OrderTime == delivery.OrderTime).Id;
+
             _shopContext.Orders.Add(order);
             _shopContext.SaveChanges();
 
-            var order_ = from _order in _shopContext.Orders
-                         where _order.OrderTime == order.OrderTime
-                         select _order;
-
-            
-
-            Order tempOrder = new Order();
-            foreach(var item in order_)
-            {
-                tempOrder = item;
-            }
+            Order order_ = _shopContext.Orders.FirstOrDefault(or => or.OrderTime == order.OrderTime);
 
             foreach (var el in items)
             {
@@ -60,11 +64,14 @@ namespace Meat_Store.Repositories
                 {
                     MeatId = el.MeatId,
                     Price = el.Price,
-                    OrderId = tempOrder.Id
+                    OrderId = order_.Id
                 };
                 _shopContext.OrderDetails.Add(product);
                 _shopContext.SaveChanges();
             }
+
+            shopCart.ClearShopCart();
+
             return true;
         }
     }

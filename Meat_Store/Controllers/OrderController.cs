@@ -1,5 +1,6 @@
 ﻿using Meat_Store.Interfaces;
 using Meat_Store.Models;
+using Meat_Store.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Meat_Store.Controllers
@@ -8,38 +9,57 @@ namespace Meat_Store.Controllers
     {
         private IAllOrders allOrders;
         private readonly ShopCart cart;
+
         public OrderController(IAllOrders allOrders, ShopCart cart)
         {
             this.allOrders = allOrders;
             this.cart = cart;
         }
-        [Route("Order/CheckOut")]
+        
         public IActionResult CheckOut()
         {
             cart.listShopitems = cart.getShopCartItems();
+
             if (cart.listShopitems.Count == 0)
             {
-                return RedirectToAction("ErrorOrder", "Order");
+                return RedirectToAction("ErrorOrder", "Order", new RouteValueDictionary(new
+                {
+                    action = "ErrorOrder",
+                    controller = "Order",
+                    error = "Ваш кошик порожній"
+                }));
             }
             return View();
         }
-        [HttpPost]
-        public IActionResult CheckOut(Order order)
-        {
-            cart.listShopitems = cart.getShopCartItems();
 
+        [HttpPost]
+        public IActionResult CheckOut(DeliveryViewModel model)
+        {
             if (ModelState.IsValid)
             {
-                if (allOrders.CreateOrder(order))// перенести цю частину коду на іншу сторінку(вже після обрання способу доставки)
+                if(allOrders.CreateOrder(new Order()
                 {
-                    return RedirectToAction("Complete");// це поки тимчасово. Далі потрібно обрати доставку
+                    Name = (string)model.order.Name.Clone(),
+                    Surname = (string)model.order.Surname.Clone(),
+                    Email = (string)model.order.Email.Clone(),
+                    PhoneNumber = (string?)model.order.PhoneNumber?.Clone()
+                }, model.delivery))
+                {
+                    return RedirectToAction("Complete");
                 }
+                return RedirectToAction("ErrorOrder", "Order", new RouteValueDictionary(new
+                {
+                    action = "ErrorOrder",
+                    controller = "Order",
+                    error = "Зменшіть кількість товару в кошику"
+                }));
             }
-            return View(order);
+            return View(model);
         }
-        public IActionResult ErrorOrder()
+        
+        public IActionResult ErrorOrder(string error)
         {
-            ViewBag.Message = "Вам кошик порожній";
+            ViewBag.Message = error;
             return View();
         }
         public IActionResult Complete()

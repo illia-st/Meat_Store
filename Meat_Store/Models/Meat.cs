@@ -19,6 +19,7 @@ namespace Meat_Store.Models
         public int Portion { get; set; }
         public int CategoryId { get; set; }
         public string Name { get; set; } = null!;
+        public string Error_msg { get; set; } = null!;
         public int SizeOfPortion { get; set; }
 
         public virtual Category Category { get; set; } = null!;

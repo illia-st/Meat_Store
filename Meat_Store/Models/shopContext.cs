@@ -57,12 +57,8 @@ namespace Meat_Store.Models
                 entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.City)
-                    .HasMaxLength(50)
+                    .HasMaxLength(30)
                     .HasColumnName("city");
-
-                entity.Property(e => e.DeliveryServise)
-                    .HasMaxLength(100)
-                    .HasColumnName("delivery_servise");
 
                 entity.Property(e => e.DeliveryType)
                     .HasColumnName("delivery_type_id");
@@ -116,6 +112,10 @@ namespace Meat_Store.Models
                 entity.Property(e => e.ShortDesc)
                     .HasMaxLength(100)
                     .HasColumnName("short_desc");
+
+                entity.Property(e => e.Error_msg)
+                    .HasMaxLength(30)
+                    .HasColumnName("error_msg");
 
                 entity.Property(e => e.SizeOfPortion).HasColumnName("size_of_portion");
 

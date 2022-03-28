@@ -5,13 +5,30 @@
         var temp = from cart in Model.shopCart.listShopitems
                    group cart by cart.Name into grp
                    select new {Name = grp.Key, Size = grp.Count()};
+
         foreach(var el in temp)
         {
             var total_price = Model.shopCart.listShopitems.Where(u => u.Name == el.Name).ToList();
+            var id = Model.shopCart.listShopitems.FirstOrDefault(u => u.Name == el.Name).MeatId;
             price += total_price.First().Price * el.Size;
             <div class="alert alert-warning mt-3">
-                <b>Товар: </b> @el.Name<b>, Кількість: </b> @el.Size<br />
-                <b>Ціна: </b> @((total_price.First().Price * el.Size).ToString("c"))<br />
+                <div class="row">
+                    <div class="col-10">
+                        <b>Товар: </b> @el.Name<b>, Кількість: </b> @el.Size<br />
+                        <b>Ціна: </b> @((total_price.First().Price * el.Size).ToString("c"))<br />
+                    </div>
+                    <div class="col-2">
+                        <div class="row">
+                            <div class="col">
+                                <p><a class="btn btn-warning" asp-conоtroller="ShopCart" asp-action="addToCart" asp-route-id="@Model.shopCart.listShopitems.FirstOrDefault(u => u.Name == el.Name).MeatId">Збільшити кількість</a></p>
+                            </div>
+                            <div class="col">
+                                <a class="btn btn-outline-warning" style="element-aligh=right;" asp-controller="ShopCart" asp-action="DeleteItemFromCart"
+                            asp-route-id="@el.Name">Зменшити кількість</a>
+                            </div>
+                        </div>
+                    </div>
+                 </div>
             </div>
         }
         <b>Загальна ціна: @price.ToString("c")</b>

@@ -14,11 +14,7 @@ namespace Meat_Store.Models
 
         public int DeliveryType { get; set; }
 
-        public string DeliveryServise { get; set; } = null!;
-
-        [StringLength(50)]
-        [Required(ErrorMessage = "asd")]
-        public string City { get; set; } = null!;
+        public string? City { get; set; }
 
         [BindNever]
         [ScaffoldColumn(false)]

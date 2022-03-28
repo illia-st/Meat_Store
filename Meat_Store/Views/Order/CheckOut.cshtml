@@ -1,4 +1,9 @@
 ﻿@model DeliveryViewModel
+<script type="text/javascript">
+    function ShowError(error){
+        alert(error);
+    };
+</script>
 <div class="text-center">
     <main class="form-signin">
         <h1 class="h3 mb-3 fw-normal">Введіть свої контактні дані</h1>
@@ -58,14 +63,22 @@
                 width: 100%;"
               >Email</label>
             </div>
-            <select asp-for="@Model.delivery.DeliveryServise">
-                <option value="Self">Самовивіз</option>
-                <option value="Delivery">Доставка</option>
-            </select>
-            <select asp-for="@Model.delivery.DeliveryType">
-                <option value="1">Нова пошта</option>
-                <option value="2">Укр пошта</option>
-            </select>
+            <h1 class="h3 mb-3 fw-normal">Оберіть спосіб отримання</h1>
+            <div class="form-floating mb-3" style="
+                width: 100%;
+                max-width: 426px;
+                margin: 0 auto;">
+                <select class="form-select" id="floatingInput" asp-for="@Model.delivery.DeliveryType">
+                    <option value="1">Нова пошта</option>
+                    <option value="2">Укр пошта</option>
+                    <option value="3">Самовивіз</option>
+                </select>
+                <span asp-validation-for="@Model.delivery.City" class="text-danger"></span>
+                <label asp-for="@Model.order.Email" for="floatingInput" style="
+                    float: none;
+                    width: 100%;"
+              >Отримання</label>
+            </div>
             <div class="form-floating mb-3">
                   <input type="text" asp-for="@Model.delivery.City" class="form-control" placeholder="Щось" style="
                     width: 100%;
@@ -83,3 +96,9 @@
         </form>
     </main>
 </div>
+@if (ViewBag.JavaScriptFunction != null)
+{
+    <script type="text/javascript">
+        @Html.Raw(ViewBag.JavaScriptFunction)
+    </script>
+}

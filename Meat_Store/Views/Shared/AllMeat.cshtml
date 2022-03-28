@@ -1,20 +1,19 @@
 ﻿@model Meat
-
 <div class="col-lg-4">
     <a class="btn btn-light" style="position:center;" asp-conоtroller="Meats" asp-action="SinglePosition" asp-route-id="@Model.Id">
         <img class="img-thumbnail" src="@Model.Img" alt="@Model.Name" />
     </a>
-    <h2> <a class="btn btn-light" style="position:center;" asp-conоtroller="Meats" asp-action="SinglePosition" 
-        asp-route-id="@Model.Id">@Model.Name</a></h2>
+    <div class="row" style="text-align:center;"><a class="btn btn-light" style="position:center;" asp-conоtroller="Meats" asp-action="SinglePosition" 
+        asp-route-id="@Model.Id"><h4>@Model.Name</h4></a></div>
     <p>@Model.ShortDesc</p>
-    <p>@Model.Price.ToString("c") за порцію. <b class="portion">В наявності @Model.Portion.ToString() порцій</b></p>
-    <p>Порцій <select>@{
-            foreach(int i = 0; i < @Model.Portion; ++i){
-                
-            }
-        }
-        </select>
-    </p>
-    <p><a class="btn btn-warning" asp-conоtroller="ShopCart" asp-action="addToCart" 
-        asp-route-id="@Model.Id">Додати в корзину</a></p>
-</div>    
+    <div class="row">
+        <div class="col">
+            <p>@Model.Price.ToString("c") за порцію.</p>
+        </div>
+        <div class="col" style="text-align: right;">
+            <b class="portion">@Model.Portion.ToString() в наявності.</b>
+        </div>
+    </div>
+    <div class="row" style="text-align:center;"><p><a class="btn btn-warning" asp-conоtroller="ShopCart" asp-action="addToCart" 
+        asp-route-id="@Model.Id">Додати в корзину</a></p></div>
+</div>

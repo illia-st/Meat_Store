@@ -7,5 +7,6 @@ namespace Meat_Store.Interfaces
     {
         IEnumerable<Meat> GetOrder { get; set; }
         bool CreateOrder(Order order, Delivery delivery);
+        public bool CheckIfExist();
     }
 }

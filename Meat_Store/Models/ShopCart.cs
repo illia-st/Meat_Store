@@ -38,6 +38,13 @@ namespace Meat_Store.Models
             }
             _context.SaveChanges();
         }
+        public void DeleteFromCart(string Name)
+        {
+            var temp = _context.ShopCartItems.FirstOrDefault(i => i.Name == Name && i.ShopCartId == ShopCartId);
+            _context.ShopCartItems.Remove(temp);
+
+            _context.SaveChanges();
+        }
         public List<ShopCartItem> getShopCartItems()
         {
             var temp = _context.ShopCartItems.Where(c => c.ShopCartId == ShopCartId).ToList();

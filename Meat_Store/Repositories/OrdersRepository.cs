@@ -17,7 +17,7 @@ namespace Meat_Store.Repositories
 
         public IEnumerable<Meat> GetOrder { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
-        public bool CreateOrder(Order order, Delivery delivery)// контролити кількість продукції
+        public bool CheckIfExist()
         {
             shopCart.listShopitems = shopCart.getShopCartItems();
             var items = shopCart.listShopitems.ToList();
@@ -39,6 +39,24 @@ namespace Meat_Store.Repositories
                 {
                     return false;
                 }
+            }
+            return true;
+        }
+
+        public bool CreateOrder(Order order, Delivery delivery)// контролити кількість продукції
+        {
+            shopCart.listShopitems = shopCart.getShopCartItems();
+            var items = shopCart.listShopitems.ToList();
+            var order_elements = new Dictionary<int, int>();
+            var table_elements = new Dictionary<int, int>();
+            foreach (var item in items)
+            {
+                if (!order_elements.ContainsKey(item.MeatId))
+                {
+                    order_elements.Add(item.MeatId, 1);
+                    continue;
+                }
+                order_elements[item.MeatId] += 1;
             }
             foreach (var item in order_elements)
             {

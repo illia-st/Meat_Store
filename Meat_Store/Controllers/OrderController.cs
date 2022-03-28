@@ -29,32 +29,51 @@ namespace Meat_Store.Controllers
                     error = "Ваш кошик порожній"
                 }));
             }
+            if (!allOrders.CheckIfExist())
+            {
+                return RedirectToAction("ErrorOrder", "Order", new RouteValueDictionary(new
+                {
+                    action = "ErrorOrder",
+                    controller = "Order",
+                    error = "Зменшіть кількість елементів в кошику"
+                }));
+            }
             return View();
         }
 
         [HttpPost]
         public IActionResult CheckOut(DeliveryViewModel model)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                if(allOrders.CreateOrder(new Order()
-                {
-                    Name = (string)model.order.Name.Clone(),
-                    Surname = (string)model.order.Surname.Clone(),
-                    Email = (string)model.order.Email.Clone(),
-                    PhoneNumber = (string?)model.order.PhoneNumber?.Clone()
-                }, model.delivery))
-                {
-                    return RedirectToAction("Complete");
-                }
-                return RedirectToAction("ErrorOrder", "Order", new RouteValueDictionary(new
-                {
-                    action = "ErrorOrder",
-                    controller = "Order",
-                    error = "Зменшіть кількість товару в кошику"
-                }));
+                return View(model);
             }
-            return View(model);
+            if(!Equals(model.delivery.DeliveryType, 3) && Equals(model.delivery.City, null))
+            {
+                ViewBag.JavaScriptFunction = string.Format("ShowError('{0}');", "Потрібно обрати місто при доставкі.");
+                return View(model);
+            }
+            if (Equals(model.delivery.DeliveryType, 3) && !Equals(model.delivery.City, null))
+            {
+                ViewBag.JavaScriptFunction = string.Format("ShowError('{0}');", "Не можна обирати місто при самовивозі.");
+                return View(model);
+            }
+            if(allOrders.CreateOrder(new Order()
+            {
+                Name = (string)model.order.Name.Clone(),
+                Surname = (string)model.order.Surname.Clone(),
+                Email = (string)model.order.Email.Clone(),
+                PhoneNumber = (string?)model.order.PhoneNumber?.Clone()
+            }, model.delivery))
+            {
+                return RedirectToAction("Complete");
+            }
+            return RedirectToAction("ErrorOrder", "Order", new RouteValueDictionary(new
+            {
+                action = "ErrorOrder",
+                controller = "Order",
+                error = "Зменшіть кількість товару в кошику"
+            }));
         }
         
         public IActionResult ErrorOrder(string error)

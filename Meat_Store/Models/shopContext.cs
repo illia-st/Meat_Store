@@ -21,6 +21,7 @@ namespace Meat_Store.Models
         public virtual DbSet<OrderDetail> OrderDetails { get; set; } = null!;
         public virtual DbSet<ShopCartItem> ShopCartItems { get; set; } = null!;
         public virtual DbSet<User> Users { get; set; } = null!;
+        public virtual DbSet<Receive> Receives { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -221,6 +222,16 @@ namespace Meat_Store.Models
                 entity.Property(e => e.Surname)
                     .HasMaxLength(50)
                     .HasColumnName("surname");
+            });
+            modelBuilder.Entity<Receive>(entity =>
+            {
+                entity.ToTable("delivery_type");
+
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.Delivery_servise)
+                    .HasMaxLength(100)
+                    .HasColumnName("delivery_servise");
             });
 
             OnModelCreatingPartial(modelBuilder);

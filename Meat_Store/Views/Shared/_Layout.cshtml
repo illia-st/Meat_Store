@@ -34,7 +34,7 @@
                             <a class="nav-link" asp-controller="ShopCart" asp-action="Index">Кошик</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" asp-controller="Chart" asp-action="JsonData">Діаграма</a>
+                            <a class="nav-link" asp-controller="Categories" asp-action="Index">Діаграма</a>
                         </li>
                     </ul>
                 </div>
@@ -56,16 +56,17 @@
         </nav>
     </header>
 
+    <script src="~/js/bootstrap.min.js"></script>
+    <script src="~/js/site.js"></script>
+    <script src="~/js/scripts.js"></script>
+    <script src="~/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/jquery-3.6.0.min.js"></script>
     <div class="container mt-5">
         @RenderBody()
+        @RenderSection("scripts")
     </div>
     <footer class="container">
         <p class="float-end"><a href="#">До гори</a></p>
     </footer>
 </body>
-<script src="~/js/bootstrap.min.js"></script>
-<script src="~/js/site.js"></script>
-<script src="~/js/scripts.js"></script>
-<script src="~/js/bootstrap.bundle.min.js"></script>
-<script src="~/js/jquery-3.6.0.min.js"></script>
 </html>

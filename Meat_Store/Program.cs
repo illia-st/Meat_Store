@@ -53,9 +53,5 @@ app.UseSession();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Home_Page}/{id?}");
-app.MapControllerRoute(
-    name: "modalSuccess",
-    pattern: "{controller=ShopCart}/{action=addToCart}/{id}",
-    defaults: new { controller = "ShopCart", action = "addToCart" });
     
 app.Run();

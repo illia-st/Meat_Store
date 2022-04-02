@@ -1,0 +1,43 @@
+﻿<div class="row">
+    <div class="col" id="chart1"></div>
+    <div class="col" id="chart2"></div>
+</div>
+@section scripts{
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script>
+        google.charts.load('current', {'packages':['corechart']});
+        google.charts.setOnLoadCallback(drawChart);
+
+
+            function drawChart(){
+                $.get('/api/Chart/JsonData', function(JsonData){
+                        data = google.visualization.arrayToDataTable(JsonData, false);
+                        var option= {
+                            title: "Співвідношення товарів та категорій",
+                            width: 500,
+                            height: 400
+                        };
+                        chart = new google.visualization.PieChart(document.getElementById('chart1'));
+                        chart.draw(data, option);
+                })
+            }
+    </script>
+    <script>
+        google.charts.load('current', {'packages':['corechart']});
+        google.charts.setOnLoadCallback(drawChart);
+
+
+            function drawChart(){
+                $.get('/api/Chart/JsonData2', function(JsonData2){
+                        data = google.visualization.arrayToDataTable(JsonData2, false);
+                        var option= {
+                            title: "Співвідношення типів отримань та замовлень",
+                            width: 500,
+                            height: 400
+                        };
+                        chart = new google.visualization.PieChart(document.getElementById('chart2'));
+                        chart.draw(data, option);
+                })
+            }
+    </script>
+}

@@ -25,5 +25,9 @@ namespace Meat_Store.Controllers
 
             return View(viewCategories);
         }
+        public IActionResult Index()
+        {
+            return View();
+        }
     }
 }

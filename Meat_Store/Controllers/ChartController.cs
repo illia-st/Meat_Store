@@ -4,8 +4,9 @@ using Meat_Store.Models;
 
 namespace Meat_Store.Controllers
 {
-
-    public class ChartController : Controller
+    [Route("api/[controller]")]
+    [ApiController]
+    public class ChartController : ControllerBase
     {
         private readonly ShopContext shopContext;
 
@@ -14,19 +15,34 @@ namespace Meat_Store.Controllers
             this.shopContext = shopContext;
         }
 
-
+        [HttpGet("JsonData")]
         public JsonResult JsonData()
         {
             var categories = shopContext.Categories.ToList();
-            List<BlogPieChart> catBook = new List<BlogPieChart>();
+            List<object> catBook = new List<object>();
 
-            //catBook.Add(new[] { "Категорія", "Кількість страв" });
+            catBook.Add(new[] { "Категорія", "Кількість страв" });
             foreach(var cat in categories)
             {
-                catBook.Add(new BlogPieChart {CategoryName = cat.CategoryName, PostCount = shopContext.Meats.Count(m => m.CategoryId == cat.Id)});
+                catBook.Add(new object[] {cat.CategoryName, shopContext.Meats.Count(m => m.CategoryId == cat.Id)});
+            }
+
+            return new JsonResult(catBook);
+        }
+        [HttpGet("JsonData2")]
+        public JsonResult JsonData2()
+        {
+            var receivings = shopContext.Receives.ToList();
+
+            List<object> delBook = new List<object>();
+
+            delBook.Add(new[] { "Тип отримання", "Кількість отримань" });
+            foreach(var rec in receivings)
+            {
+                delBook.Add(new object[] { rec.Delivery_servise, shopContext.Deliveries.Count(d => d.DeliveryType == rec.Id) });
             }
             
-            return Json( new { JSONList = catBook });
+            return new JsonResult(delBook);
         }
     }
 }

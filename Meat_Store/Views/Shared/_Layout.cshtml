@@ -6,17 +6,13 @@
     <link href="~/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
     <link href="~/css/site.css" rel="stylesheet" type="text/css" />
     <link href="~/css/style.css" rel="stylesheet" type="text/css" />
-
-    <script src="~/js/bootstrap.min.js"></script>
-    <script src="~/js/scripts.js"></script>
-    <script src="~/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/jquery-3.6.0.min.js"></script>
 </head>
 <body style="font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;">
     <header style = "
     padding-top: 0px;
     padding-bottom: 0px;
 ">
+    <div id="PlaceHolderHere"></div>
         <nav class="navbar navbar-expand-md navbar-dark bg-dark">
             <div class="container-fluid">
                 <a class="navbar-brand" asp-controller="Home" asp-action="Home_Page">Магазин</a>
@@ -37,14 +33,29 @@
                         <li class="nav-item">
                             <a class="nav-link" asp-controller="ShopCart" asp-action="Index">Кошик</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Chart" asp-action="JsonData">Діаграма</a>
+                        </li>
                     </ul>
                 </div>
-                <div class="col-md-3 text-end">
-                    <button type="button" class="btn btn-outline-danger me-2">Увійти</button>
-                    <button type="button" class="btn btn-danger">Зареєструватись</button>
-                </div>
+                @if (!User.Identity.IsAuthenticated)
+                {
+                    <div class="col-md-3 text-end">
+                        <a class="btn btn-success ms-2" asp-controller="Account" asp-action="Login">Увійти</a>
+                        <a class="btn btn-outline-danger" asp-controller="Account" asp-action="Register">Зареєструватись</a>
+                    </div>  
+                }
+                else{
+                    <div class= "col-md-3 text-end">
+                        <form method="post" asp-controller="Account" asp-action="Logout">
+                            <input type="submit" class="btn btn-outline-danger" value="Вбити Путіна"/>
+                        </form>
+                    </div>
+                }
             </div>
         </nav>
+    </header>
+
     <div class="container mt-5">
         @RenderBody()
     </div>
@@ -52,4 +63,9 @@
         <p class="float-end"><a href="#">До гори</a></p>
     </footer>
 </body>
+<script src="~/js/bootstrap.min.js"></script>
+<script src="~/js/site.js"></script>
+<script src="~/js/scripts.js"></script>
+<script src="~/js/bootstrap.bundle.min.js"></script>
+<script src="~/js/jquery-3.6.0.min.js"></script>
 </html>

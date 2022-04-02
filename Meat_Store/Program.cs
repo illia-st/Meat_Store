@@ -1,8 +1,8 @@
-using Meat_Store;
 using Meat_Store.Models;
 using Microsoft.EntityFrameworkCore;
 using Meat_Store.Interfaces;
 using Meat_Store.Repositories;
+using Microsoft.AspNetCore.Identity;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -17,6 +17,10 @@ builder.Services.AddControllersWithViews()
 builder.Services.AddDbContext<ShopContext>(option => option.UseSqlServer(
        builder.Configuration.GetConnectionString("DefaultConnection")
 ));
+builder.Services.AddDbContext<IdentityContext>(option => option.UseSqlServer(
+    builder.Configuration.GetConnectionString("IdentityConnection")    
+));
+builder.Services.AddIdentity<User, IdentityRole>().AddEntityFrameworkStores<IdentityContext>();
 builder.Services.AddTransient<IAllMeat, MeatRepository>();
 builder.Services.AddTransient<IAllCategories, CategoriesRepository>();
 builder.Services.AddTransient<IAllOrders, OrdersRepository>();
@@ -39,10 +43,12 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
+app.UseAuthentication();
 app.UseRouting();
 
 app.UseAuthorization();
 app.UseSession();
+
 
 app.MapControllerRoute(
     name: "default",

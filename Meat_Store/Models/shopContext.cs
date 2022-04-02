@@ -80,11 +80,6 @@ namespace Meat_Store.Models
                     .WithMany(p => p.FavoutirePositions)
                     .HasForeignKey(d => d.MeatId)
                     .HasConstraintName("FK_favourite_position_meat");
-
-                entity.HasOne(d => d.User)
-                    .WithMany(p => p.FavoutirePositions)
-                    .HasForeignKey(d => d.UserId)
-                    .HasConstraintName("FK_favourite_position_user");
             });
 
             modelBuilder.Entity<Meat>(entity =>
@@ -151,17 +146,15 @@ namespace Meat_Store.Models
                     .HasMaxLength(50)
                     .HasColumnName("surname");
 
-                entity.Property(e => e.UserId).HasColumnName("user_id");
+                entity.Property(e => e.UserId)
+                .HasMaxLength(50)
+                .HasColumnName("user_id");
 
                 entity.HasOne(d => d.Delivery)
                     .WithMany(p => p.Orders)
                     .HasForeignKey(d => d.DeliveryId)
                     .HasConstraintName("FK_ordering_delivery");
 
-                entity.HasOne(d => d.User)
-                    .WithMany(p => p.Orders)
-                    .HasForeignKey(d => d.UserId)
-                    .HasConstraintName("FK_ordering_buyer");
             });
 
             modelBuilder.Entity<OrderDetail>(entity =>

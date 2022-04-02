@@ -1,0 +1,39 @@
+﻿<div class="container">
+    <div id="chartdiv"></div>
+</div>
+@section scripts{
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script>
+        google.charts.load('current', {'packages':['corechart']});
+        google.charts.setOnLoadCallback(DrawonLoad);
+            function DrawonLoad(){
+                $(function (){
+                    $.ajax({
+                        type: 'GET',
+                        url: '/Chart/JsonData',
+                        success: function(chartsdata){
+                            var Data = chartsdata.jsonList;
+                            var data = new google.visualization.DataTable();
+                            data.addColumn('string', 'CategoryName');
+                            data.addColumn('number', 'PostCount');
+
+                            for(var i = 0; i < Data.length; ++i){
+                                data.addRow([Data[i].categoryName, Data[i].postCount]);
+                            }
+
+                            var chart = new google.visualization.PieChart(document.getElementById('chartdiv'));
+                            chart.draw(data,
+                            {
+                                title: "перемога?",
+                                width: 500,
+                                height: 400
+                            });
+                        },
+                        error: function(){
+                            alert('Error loading data.');
+                        }
+                    })
+                });
+            }
+    </script>
+}

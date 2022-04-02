@@ -36,7 +36,7 @@ namespace Meat_Store.Models
         [ScaffoldColumn(false)]
         public DateTime OrderTime { get; set; }
         
-        public int? UserId { get; set; }
+        public string? UserId { get; set; }
 
         public virtual Delivery Delivery { get; set; } = null!;
         

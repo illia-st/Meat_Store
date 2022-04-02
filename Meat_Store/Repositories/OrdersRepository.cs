@@ -1,6 +1,8 @@
 ﻿using Meat_Store.Interfaces;
 using Meat_Store.Models;
 using Meat_Store.ViewModels;
+using Microsoft.AspNetCore.Identity;
+using System.Security.Claims;
 
 namespace Meat_Store.Repositories
 {
@@ -8,19 +10,32 @@ namespace Meat_Store.Repositories
     {
         private readonly ShopContext _shopContext;
         private readonly ShopCart shopCart;
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IdentityContext identityContext;
 
-        public OrdersRepository(ShopContext shopContext, ShopCart shopCart)
+        public OrdersRepository(ShopContext shopContext, ShopCart shopCart, IHttpContextAccessor httpContextAccessor, IdentityContext identityContext)
         {
             _shopContext = shopContext;
             this.shopCart = shopCart;
+            _httpContextAccessor = httpContextAccessor;
+            this.identityContext = identityContext;
         }
 
         public IEnumerable<Meat> GetOrder { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
         public bool CheckIfExist()
         {
-            shopCart.listShopitems = shopCart.getShopCartItems();
-            var items = shopCart.listShopitems.ToList();
+            var userId = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var items = new List<ShopCartItem>();
+
+            if (String.IsNullOrEmpty(userId))
+            {
+                items = shopCart.listShopitems.ToList();
+            }
+            else
+            {
+                items = _shopContext.ShopCartItems.Where(sh => sh.ShopCartId == userId).ToList();
+            }
             var order_elements = new Dictionary<int, int>();
             var table_elements = new Dictionary<int, int>();
             foreach (var item in items)
@@ -45,8 +60,17 @@ namespace Meat_Store.Repositories
 
         public bool CreateOrder(Order order, Delivery delivery)// контролити кількість продукції
         {
-            shopCart.listShopitems = shopCart.getShopCartItems();
-            var items = shopCart.listShopitems.ToList();
+            var userId = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var items = new List<ShopCartItem>();
+
+            if (String.IsNullOrEmpty(userId))
+            {
+                items = shopCart.listShopitems.ToList();
+            }
+            else
+            {
+                items = _shopContext.ShopCartItems.Where(sh => sh.ShopCartId == userId).ToList();
+            }
             var order_elements = new Dictionary<int, int>();
             var table_elements = new Dictionary<int, int>();
             foreach (var item in items)
@@ -64,6 +88,7 @@ namespace Meat_Store.Repositories
                 _shopContext.SaveChanges();
             }
             order.OrderTime = System.DateTime.Now;
+            //order.UserId = userId;
             delivery.OrderTime = System.DateTime.Now;
 
             _shopContext.Deliveries.Add(delivery);

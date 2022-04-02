@@ -1,9 +1,10 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Identity;
+using System;
 using System.Collections.Generic;
 
 namespace Meat_Store.Models
 {
-    public partial class User
+    public partial class User: IdentityUser
     {
         public User()
         {
@@ -15,7 +16,7 @@ namespace Meat_Store.Models
         public string Name { get; set; } = null!;
         public string Surname { get; set; } = null!;
         public string Email { get; set; } = null!;
-        public string? PhoneNumber { get; set; }
+        public string PhoneNumber { get; set; }
         public string ShopCartId { get; set; } = null!;
 
         public virtual ICollection<FavoutirePosition> FavoutirePositions { get; set; }

@@ -44,5 +44,26 @@ namespace Meat_Store.Controllers
             
             return new JsonResult(delBook);
         }
+        [HttpGet("AmountOfProduct")]
+        public JsonResult AmountOfProduct()
+        {
+            var categories = shopContext.Categories.ToList();
+
+            List<object> list = new List<object>();
+
+            list.Add(new object[] { "Категорія", "Кількість товару за категорією" });
+            foreach(var cat in categories)
+            {
+                var dishes = shopContext.Meats.Where(m => m.CategoryId == cat.Id).ToList();
+                int sum = 0;
+
+                foreach(var dish in dishes)
+                {
+                    sum += dish.Portion;
+                }
+                list.Add(new object[] {cat.CategoryName, sum});
+            }
+            return new JsonResult(list);
+        }
     }
 }

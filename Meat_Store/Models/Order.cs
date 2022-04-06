@@ -40,8 +40,6 @@ namespace Meat_Store.Models
 
         public virtual Delivery Delivery { get; set; } = null!;
         
-        public virtual User User { get; set; } = null!;
-        
         public virtual ICollection<OrderDetail> OrderDetails { get; set; }
 
         public Order Clone()

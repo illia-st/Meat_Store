@@ -20,7 +20,6 @@ namespace Meat_Store.Models
         public virtual DbSet<Order> Orders { get; set; } = null!;
         public virtual DbSet<OrderDetail> OrderDetails { get; set; } = null!;
         public virtual DbSet<ShopCartItem> ShopCartItems { get; set; } = null!;
-        public virtual DbSet<User> Users { get; set; } = null!;
         public virtual DbSet<Receive> Receives { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -75,7 +74,9 @@ namespace Meat_Store.Models
 
                 entity.Property(e => e.MeatId).HasColumnName("meat_id");
 
-                entity.Property(e => e.UserId).HasColumnName("user_id");
+                entity.Property(e => e.UserId)
+                    .HasMaxLength(100)
+                    .HasColumnName("user_id");
 
                 entity.HasOne(d => d.Meat)
                     .WithMany(p => p.FavoutirePositions)
@@ -195,33 +196,6 @@ namespace Meat_Store.Models
 
                 entity.Property(e => e.Price).HasColumnName("price");
 
-            });
-
-            modelBuilder.Entity<User>(entity =>
-            {
-                entity.ToTable("buyer");
-
-                entity.Property(e => e.Id).HasColumnName("id");
-
-                entity.Property(e => e.Email)
-                    .HasMaxLength(50)
-                    .HasColumnName("email");
-
-                entity.Property(e => e.Name)
-                    .HasMaxLength(50)
-                    .HasColumnName("name");
-
-                entity.Property(e => e.PhoneNumber)
-                    .HasMaxLength(50)
-                    .HasColumnName("phone_number");
-
-                entity.Property(e => e.ShopCartId)
-                    .HasMaxLength(100)
-                    .HasColumnName("shop_cart_id");
-
-                entity.Property(e => e.Surname)
-                    .HasMaxLength(50)
-                    .HasColumnName("surname");
             });
             modelBuilder.Entity<Receive>(entity =>
             {

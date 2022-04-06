@@ -33,6 +33,12 @@
                         <li class="nav-item">
                             <a class="nav-link" asp-controller="ShopCart" asp-action="Index">Кошик</a>
                         </li>
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="FavouritePosition" asp-action="ListOfFavourite">Улюблені страви</a>
+                            </li>
+                        }
                         <li class="nav-item">
                             <a class="nav-link" asp-controller="Categories" asp-action="Index">Діаграма</a>
                         </li>
@@ -48,7 +54,7 @@
                 else{
                     <div class= "col-md-3 text-end">
                         <form method="post" asp-controller="Account" asp-action="Logout">
-                            <input type="submit" class="btn btn-outline-danger" value="Вбити Путіна"/>
+                            <input type="submit" class="btn btn-outline-danger" value="Logout"/>
                         </form>
                     </div>
                 }

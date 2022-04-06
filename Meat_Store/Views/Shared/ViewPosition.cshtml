@@ -44,6 +44,10 @@
                     <p>@Model.LongDesc.</p>
                     <p>Порція складається з @Model.SizeOfPortion <a id="@Model.SizeOfPortion.ToString().Trim()"></a>.</p>
                     <p>В наявності @Model.Portion <a id="@Model.Portion.ToString().Trim()"></a>.</p>
+                    @(User.Identity.IsAuthenticated){
+                        <p><a class="btn btn-light" asp-controller="Favourite" asp-action="AddToFavourite"
+                         onclick="AjaxFormSubmit()">Додати до улюблених</a></p>
+                    }
                     <p><a class="btn btn-warning" asp-conоtroller="ShopCart" asp-action="AddToShopCart" 
                             asp-route-id="@Model.Id" >Додати до кошика</a></p>
                 </div>

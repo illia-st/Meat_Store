@@ -3,6 +3,8 @@ using Meat_Store.Repositories;
 using Meat_Store.ViewModels;
 using Meat_Store.Interfaces;
 using Meat_Store.Models;
+using Microsoft.AspNetCore.Identity;
+using System.Security.Claims;
 
 namespace Meat_Store.Controllers
 {
@@ -10,10 +12,18 @@ namespace Meat_Store.Controllers
     {
         private IAllMeat allmeat;
         private IAllCategories allCategories;
-        public MeatsController(IAllMeat allmeat, IAllCategories allCategories)
+        private readonly ShopContext context;
+        private readonly UserManager<User> _userManager;
+        private readonly SignInManager<User> _signInManager;
+        
+        public MeatsController(IAllMeat allmeat, IAllCategories allCategories, 
+            UserManager<User> userManager, SignInManager<User> signInManager, ShopContext context)
         {
             this.allmeat = allmeat;
             this.allCategories = allCategories;
+            _userManager = userManager;
+            _signInManager = signInManager;
+            this.context = context;
         }
         [Route("Categories/ListOfProducts/{category}")]
         public ViewResult ListOfProducts(int ?category)
@@ -54,13 +64,28 @@ namespace Meat_Store.Controllers
         [Route("Categories/ListOfProducts/1/SinglePosition/{meat_id}")]
         [Route("Categories/ListOfProducts/2/SinglePosition/{meat_id}")]
         [Route("Categories/ListOfProducts/3/SinglePosition/{meat_id}")]
-        public ViewResult SinglePosition(int meat_id)
+        [Route("FavouritePosition/SinglePosition/{meat_id}")]
+        public async Task<ViewResult> SinglePosition(int meat_id)
         {
-            var viewProduct = new MeatsViewModel
+            var posModel = new SinglePositionViewModel()
             {
-                Product = allmeat.GetProduct(meat_id)
+                meat = allmeat.GetProduct(meat_id)
             };
-            return View(viewProduct);
+            if (User.Identity.IsAuthenticated)
+            {
+                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                int? fav_meat = context.FavoutirePositions.FirstOrDefault(fav => fav.MeatId == meat_id 
+                    && fav.UserId == userId)?.MeatId;
+                if (fav_meat == null || fav_meat == 0)
+                {
+                    posModel.ifFav = false;
+                }
+                else
+                {
+                    posModel.ifFav = true;
+                }
+            }
+            return View(posModel);
         }
     }
 }

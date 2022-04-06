@@ -7,12 +7,10 @@ namespace Meat_Store.Models
     public class ShopCart
     {
         private readonly ShopContext _context;
-        private readonly IdentityContext _identityContext;
         private readonly IHttpContextAccessor httpContextAccessor;
-        public ShopCart(ShopContext shopContext, IdentityContext identityContext, IHttpContextAccessor httpContextAccessor)
+        public ShopCart(ShopContext shopContext, IHttpContextAccessor httpContextAccessor)
         {
             _context = shopContext;
-            _identityContext = identityContext;
             this.httpContextAccessor = httpContextAccessor;
         }
         public string ShopCartId { get; set; }
@@ -22,13 +20,12 @@ namespace Meat_Store.Models
             ISession session =
                 serviceProvider.GetRequiredService<IHttpContextAccessor>()?.HttpContext.Session;
             var context = serviceProvider.GetService<ShopContext>();
-            var identityContext = serviceProvider.GetService<IdentityContext>();
             var httpContext = serviceProvider.GetService<IHttpContextAccessor>();
             var shopCartid = session.GetString("CartId") ?? Guid.NewGuid().ToString();
 
             session.SetString("CartId", shopCartid);
 
-            return new ShopCart(context, identityContext, httpContext) { ShopCartId = shopCartid };
+            return new ShopCart(context, httpContext) { ShopCartId = shopCartid };
 
         }
 
@@ -65,16 +62,18 @@ namespace Meat_Store.Models
         public List<ShopCartItem> getShopCartItems()
         {
             var userId = httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+
             if (String.IsNullOrEmpty(userId))
             {
                 return _context.ShopCartItems.Where(c => c.ShopCartId == ShopCartId).ToList();
             }
-            
+
             return _context.ShopCartItems.Where(c => c.ShopCartId == userId).ToList();
         }
         public void ClearShopCart()
         {
             var userId = httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+
             var items = new List<ShopCartItem>();
             if (String.IsNullOrEmpty(userId))
             {
@@ -84,12 +83,11 @@ namespace Meat_Store.Models
             {
                 items = _context.ShopCartItems.Where(c => c.ShopCartId == userId).ToList();
             }
-            foreach(var item in items)
+            foreach (var item in items)
             {
                 _context.ShopCartItems.Remove(item);
             }
             _context.SaveChanges();
-            this.listShopitems.Clear();
         }
     }
 }

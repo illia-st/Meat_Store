@@ -1,6 +1,8 @@
 ﻿using Meat_Store.Interfaces;
 using Meat_Store.Models;
 using Meat_Store.ViewModels;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Meat_Store.Controllers
@@ -9,15 +11,20 @@ namespace Meat_Store.Controllers
     {
         private IAllOrders allOrders;
         private readonly ShopCart cart;
+        private readonly UserManager<User> _userManager;
+        private readonly SignInManager<User> _signInManager;
 
-        public OrderController(IAllOrders allOrders, ShopCart cart)
+        public OrderController(IAllOrders allOrders, ShopCart cart, UserManager<User> userManager, SignInManager<User> signInManager)
         {
             this.allOrders = allOrders;
             this.cart = cart;
+            _userManager = userManager;
+            _signInManager = signInManager;
         }
         
-        public IActionResult CheckOut()
+        public async Task<IActionResult> CheckOut()
         {
+            
             cart.listShopitems = cart.getShopCartItems();
 
             if (cart.listShopitems.Count == 0)
@@ -37,6 +44,21 @@ namespace Meat_Store.Controllers
                     controller = "Order",
                     error = "Зменшіть кількість елементів в кошику"
                 }));
+            }
+            if (User.Identity.IsAuthenticated)
+            {
+                var current_user = await _userManager.GetUserAsync(User);
+                return View(new DeliveryViewModel()
+                {
+                    order = new FakeOrder()
+                    {
+                        Name = current_user.Name,
+                        Surname = current_user.Surname,
+                        Email = current_user.Email,
+                        PhoneNumber = current_user.PhoneNumber
+                    },
+                    delivery = new Delivery()
+                });
             }
             return View();
         }

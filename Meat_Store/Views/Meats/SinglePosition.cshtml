@@ -1,8 +1,63 @@
-﻿@model MeatsViewModel
-
-<div>
-    @{
-            @Html.Partial("ViewPosition", @Model.Product)
+﻿@model SinglePositionViewModel
+<script type="text/javascript">
+    function func1(number) {
+        var digit = new String();
+        if(number.length == 1){
+            digit = number;
+        }
+        else{
+            digit = number[1];
+        }
+        if (digit == "1") {
+            document.getElementById(@Model.meat.Portion.ToString().Trim()).innerHTML = "порція";
+            return;
+        }
+        if (digit > "1" && digit < "5") {
+            document.getElementById(@Model.meat.Portion.ToString().Trim()).innerHTML = "порції";
+            return;
+        }
+        document.getElementById(@Model.meat.Portion.ToString().Trim()).innerHTML = "порцій";
     }
+    function func2(number) {
+        var digit = new String();
+        if(number.length == 1){
+            digit = number;
+        }
+        else{
+            digit = number[1];
+        }
+        if (digit == "1") {
+            document.getElementById(@Model.meat.SizeOfPortion.ToString().Trim()).innerHTML = "шматочка";
+            return;
+        }
+        document.getElementById(@Model.meat.SizeOfPortion.ToString().Trim()).innerHTML = "шматочків";
+    }
+</script>
+<div class="container">
+        <div class="row">
+            <div class="col-5">
+                <img class="infoimg" src="@Model.meat.Img" alt="@Model.meat.Name"/>
+            </div>
+            <div class="col-7" style="text-align: right;">
+                <div class="infopos">
+                    <p><h1>@Model.meat.Name</h1></p>
+                    <p>@Model.meat.LongDesc.</p>
+                    <p>Порція складається з @Model.meat.SizeOfPortion <a id="@Model.meat.SizeOfPortion.ToString().Trim()"></a>.</p>
+                    <p>В наявності @Model.meat.Portion <a id="@Model.meat.Portion.ToString().Trim()"></a>.</p>
+                    @if(User.Identity.IsAuthenticated){
+                        if(@Model.ifFav){
+                            <p><a class="btn btn-light" asp-controller="FavouritePosition" asp-action="RemoveFromFavourite" asp-route-id="@Model.meat.Id">Вилучити з улюблених</a></p>
+                        }
+                        else{
+                            <p><a class="btn btn-light" asp-controller="FavouritePosition" asp-action="AddToFavourite" asp-route-id="@Model.meat.Id" >Додати до улюблених</a></p>
+                        }
+                    }
+                    <p><a class="btn btn-warning" asp-conоtroller="ShopCart" asp-action="AddToShopCart" 
+                            asp-route-id="@Model.meat.Id" >Додати до кошика</a></p>
+                </div>
+            </div>
+    </div>
 </div>
+<script type="text/javascript">func1("@Model.meat.Portion.ToString().Trim()"); func2("@Model.meat.SizeOfPortion.ToString().Trim()")</script>
+
 @section scripts{}

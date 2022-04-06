@@ -29,6 +29,7 @@ namespace Meat_Store.Controllers
         }
         [Route("Meats/addToShopCart/{id}")]
         [Route("Meats/addToCart/{id}")]
+        [Route("FavouritePosition/addToCart/{id}")]
         public RedirectToActionResult addToCart(int id)
         {
             var curItem = _meatRepository.All_Meat.FirstOrDefault(i => i.Id == id);

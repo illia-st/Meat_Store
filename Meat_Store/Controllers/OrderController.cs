@@ -105,7 +105,7 @@ namespace Meat_Store.Controllers
         }
         public IActionResult Complete()
         {
-            ViewBag.Message = "Ви Успішно оформили замовлення";
+            ViewBag.Message = "Ви успішно оформили замовлення";
             return View();
         }
     }

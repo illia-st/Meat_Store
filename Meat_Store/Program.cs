@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Meat_Store.Interfaces;
 using Meat_Store.Repositories;
 using Microsoft.AspNetCore.Identity;
-
+using Meat_Store;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -31,6 +31,22 @@ builder.Services.AddMemoryCache();
 builder.Services.AddSession();
 
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    try
+    {
+        var userManager = services.GetRequiredService<UserManager<User>>();
+        var rolesManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+        await RoleInitializer.InitializeAsync(userManager, rolesManager);
+    }
+    catch (Exception ex)
+    {
+        var logger = services.GetRequiredService<ILogger<Program>>();
+        logger.LogError(ex, "An error occurred while seeding the database."+DateTime.Now.ToString());
+    }
+}
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

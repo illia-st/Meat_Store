@@ -50,15 +50,35 @@ namespace Meat_Store.Controllers
                                 var cat = context.Categories.FirstOrDefault(c => c.CategoryName == worksheet.Name);
                                 if (cat == null)
                                 {
+                                    var cat_row = worksheet.Row(2);
+                                    string desc = cat_row.Cell(1).Value.ToString();
+                                    string img = cat_row.Cell(2).Value.ToString();
+
                                     var new_cat = new Category()
                                     {
-                                        CategoryName = worksheet.Name
+                                        CategoryName = worksheet.Name,
+                                        Description = desc,
+                                        Img = img
                                     };
                                     context.Categories.Add(new_cat);
+                                    context.SaveChanges();
+                                    cat = context.Categories.FirstOrDefault(c => c.CategoryName == worksheet.Name);
+
                                     if_new_cat = true;
                                 }
-                                int header = worksheet.Row(1).CellsUsed().Count();
-                                foreach (IXLRow row in worksheet.RowsUsed().Skip(1))
+                                int header = 0, skiped = 0;
+                                if (if_new_cat)
+                                {
+                                    skiped = 3;
+                                    header = worksheet.Row(skiped).CellsUsed().Count();
+                                }
+                                else
+                                {
+                                    skiped = 1;
+                                    header = worksheet.Row(skiped).CellsUsed().Count();
+                                }
+
+                                foreach (IXLRow row in worksheet.RowsUsed().Skip(skiped))
                                 {
                                     var new_info = new List<string>();
                                     int used_cells = row.CellsUsed().Count();

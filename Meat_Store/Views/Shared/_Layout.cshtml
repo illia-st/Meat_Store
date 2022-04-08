@@ -6,6 +6,7 @@
     <link href="~/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
     <link href="~/css/site.css" rel="stylesheet" type="text/css" />
     <link href="~/css/style.css" rel="stylesheet" type="text/css" />
+    <link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" type="text/css"/>
 </head>
 <body style="font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;">
     <header style = "
@@ -39,34 +40,63 @@
                                 <a class="nav-link" asp-controller="FavouritePosition" asp-action="ListOfFavourite">Улюблені страви</a>
                             </li>
                         }
-                        <li class="nav-item">
-                            <a class="nav-link" asp-controller="Categories" asp-action="Index">Діаграма</a>
+                        @if(User.Identity.IsAuthenticated && User.IsInRole("admin"))
+                        {
+                            <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown">
+                            Функції адміністратора
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
+                                <li>
+                                    <a class="dropdown-item" asp-controller="Categories" asp-action="Index">Діаграма</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" asp-controller="Roles" asp-action="UserList">Список користувачів</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" asp-controller="Roles" asp-action="Index">Список ролей</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" asp-controller="Admin" asp-action="AddMeat">Додати страву</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" asp-controller="Admin" asp-action="AddCategory">Додати категорію</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" asp-controller="Admin" asp-action="DelMeat">Видалити страву</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" asp-controller="Admin" asp-action="DelCategory">Видалити категорію</a>
+                                </li>
+                            </ul>
                         </li>
+                        }
                     </ul>
                 </div>
                 @if (!User.Identity.IsAuthenticated)
                 {
                     <div class="col-md-3 text-end">
                         <a class="btn btn-success ms-2" asp-controller="Account" asp-action="Login">Увійти</a>
-                        <a class="btn btn-outline-danger" asp-controller="Account" asp-action="Register">Зареєструватись</a>
+                        <a class="btn btn-outline-success" asp-controller="Account" asp-action="Register">Зареєструватись</a>
                     </div>  
                 }
                 else{
                     <div class= "col-md-3 text-end">
                         <form method="post" asp-controller="Account" asp-action="Logout">
-                            <input type="submit" class="btn btn-outline-danger" value="Logout"/>
+                            <input type="submit" class="btn btn-outline-danger" value="Вийти"/>
                         </form>
                     </div>
                 }
             </div>
         </nav>
     </header>
-
+    <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>    
     <script src="~/js/bootstrap.min.js"></script>
     <script src="~/js/site.js"></script>
     <script src="~/js/scripts.js"></script>
     <script src="~/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/jquery-3.6.0.min.js"></script>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/jquery/dist/jquery.js"></script>
     <div class="container mt-5">
         @RenderBody()
         @RenderSection("scripts")

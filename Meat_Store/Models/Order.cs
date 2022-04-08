@@ -14,22 +14,22 @@ namespace Meat_Store.Models
         public int Id { get; set; }
         
         [StringLength(50)]
-        [Required(ErrorMessage = "asd")]
+        [Required(ErrorMessage = "Це поле обов'язкове")]
         public string Name { get; set; } = null!;
 
         
         [StringLength(50)]
-        [Required(ErrorMessage = "asd")]
+        [Required(ErrorMessage = "Це поле обов'язкове")]
         public string Surname { get; set; } = null!;
         
         public int DeliveryId { get; set; }
         
         [StringLength(50)]
-        [Required(ErrorMessage = "asd")]
+        [Required(ErrorMessage = "Це поле обов'язкове")]
         public string? PhoneNumber { get; set; }
 
         [StringLength(50)]
-        [Required(ErrorMessage = "asd")]
+        [Required(ErrorMessage = "Це поле обов'язкове")]
         public string Email { get; set; } = null!;
         
         [BindNever]

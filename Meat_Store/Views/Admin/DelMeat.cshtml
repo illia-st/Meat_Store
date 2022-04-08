@@ -1,0 +1,40 @@
+﻿@model Meat
+<script type="text/javascript">
+    function ShowError(error){
+        alert(error);
+    };
+</script>
+<main class="my-form">
+    <div class="cotainer">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                    <div class="card">
+                        <div class="card-header">Видалення страви</div>
+                        <div class="card-body" >
+                            <form asp-controller = "Admin" asp-action="DelMeat" method="post">
+                                    <div class="form-group row mb-3">
+                                        <div class="col-md-6">
+                                            <input type="text" asp-for="@Model.Name" class="form-control">
+                                        </div>
+                                        <label asp-for="@Model.Name" class="col-md-4 col-form-label">Назва</label>
+                                        <span asp-validation-for="@Model.Name"></span>
+                                    </div>
+                                     <div class="col-md-6 offset-md-4">
+                                        <button type="submit" class="btn btn-primary">Видалити</button>
+                                    </div>
+                            </form>
+                        </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+@if (ViewBag.JavaScriptFunction != null)
+{
+    <script type="text/javascript">
+        @Html.Raw(ViewBag.JavaScriptFunction)
+    </script>
+}
+
+@section scripts{}
+

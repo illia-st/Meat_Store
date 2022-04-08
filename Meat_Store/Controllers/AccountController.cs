@@ -1,23 +1,27 @@
 ﻿using Meat_Store.Models;
 using Meat_Store.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
 namespace Meat_Store.Controllers
 {
+    
     public class AccountController: Controller
     {
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
-        private readonly ShopCart shopCart;
+        private readonly RoleManager<IdentityRole> _roleManager;
 
-        public AccountController(UserManager<User> userManager, SignInManager<User> signInManager, ShopCart shopCart)
+        public AccountController(UserManager<User> userManager, SignInManager<User> signInManager, 
+            RoleManager<IdentityRole> roleManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
-            this.shopCart = shopCart;
+            _roleManager = roleManager;
         }
+
         [Route("Account/Register")]
         [HttpGet]
         public IActionResult Register()
@@ -38,12 +42,17 @@ namespace Meat_Store.Controllers
                    Email = model.Email,
                    UserName = model.Email,
                    PhoneNumber = model.PhoneNumber,
-                   ShopCartId = shopCart.ShopCartId
                 };
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
                     await _signInManager.SignInAsync(user, isPersistent: false);
+
+                    await _userManager.AddToRolesAsync(user, new List<string>()
+                    {
+                        "user"
+                    });
+
                     return RedirectToAction("Home_Page", "Home");
                 }
                 else

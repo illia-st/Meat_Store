@@ -1,0 +1,14 @@
+﻿@model MeatsViewModel
+<div class="three"><h1>@Model.Message</h1></div>
+<div class="row mt-5 mb-2">
+    @if(@Model.meats.Count() != 0){
+        foreach (Meat meat in Model.meats)
+        {
+            @Html.Partial("AllMeat", meat)
+        }
+    }
+    else{
+        <h4>У Вас ще немає улюблених страв</h4>
+    }
+</div>
+@section scripts{}

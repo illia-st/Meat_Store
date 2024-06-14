@@ -1,0 +1,98 @@
+﻿@model AdminViewModel
+<script type="text/javascript">
+    function ShowError(error){
+        alert(error);
+    };
+</script>
+<main class="my-form">
+    <div class="cotainer">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header">Додавання страви</div>
+                        <div class="card-body" >
+                            <form asp-controller = "Admin" asp-action="AddMeat" method="post">
+                                    <div class="form-group row mb-3">
+                                        <div class="col-md-6">
+                                            <input type="text" asp-for="@Model.meat.Name" class="form-control">
+                                        </div>
+                                        <label asp-for="@Model.meat.Name" class="col-md-4 col-form-label">Назва</label>
+                                        <span asp-validation-for="@Model.meat.Name"></span>
+                                    </div>
+                                    <div class="form-group row mb-3">
+                                        <div class="col-md-6">
+                                            <input type="text" asp-for="@Model.meat.ShortDesc" class="form-control">
+                                        </div>
+                                        <label asp-for="@Model.meat.ShortDesc" class="col-md-4 col-form-label">Короткий опис</label>
+                                        <span asp-validation-for="@Model.meat.ShortDesc"></span>
+                                    </div>
+                                    <div class="form-group row mb-3">
+                                        <div class="col-md-6">
+                                            <input type="text" asp-for="@Model.meat.LongDesc" class="form-control">
+                                        </div>
+                                        <label asp-for="@Model.meat.LongDesc" class="col-md-4 col-form-label">Повний опис</label>
+                                        <span asp-validation-for="@Model.meat.LongDesc"></span>
+                                    </div>
+                                    <div class="form-group row mb-3">
+                                        <div class="col-md-6">
+                                            <input type="text" asp-for="@Model.meat.Price" class="form-control">
+                                        </div>
+                                        <label asp-for="@Model.meat.Price" class="col-md-4 col-form-label">Ціна</label>
+                                        <span asp-validation-for="@Model.meat.Price"></span>
+                                    </div>
+                                    <div class="form-group row mb-3">
+                                        <div class="col-md-6">
+                                            <input type="text" asp-for="@Model.meat.Img" class="form-control">
+                                        </div>
+                                        <label asp-for="@Model.meat.Img" class="col-md-4 col-form-label">Url фото</label>
+                                        <span asp-validation-for="@Model.meat.Img"></span>
+                                    </div>
+                                    <div class="form-group row mb-3">
+                                        <div class="col-md-6">
+                                            <input type="text" asp-for="@Model.meat.Portion" class="form-control">
+                                        </div>
+                                        <label asp-for="@Model.meat.Portion" class="col-md-4 col-form-label">Кількість порцій</label>
+                                        <span asp-validation-for="@Model.meat.Portion"></span>
+                                    </div>
+                                    <div class="form-group row mb-3">
+                                        <div class="col-md-6">
+                                            <input type="text" asp-for="@Model.meat.SizeOfPortion" class="form-control">
+                                        </div>
+                                        <label asp-for="@Model.meat.SizeOfPortion" class="col-md-4 col-form-label">Розмір порції</label>
+                                        <span asp-validation-for="@Model.meat.SizeOfPortion"></span>
+                                    </div>
+                                    <div class="form-group row mb-3">
+                                        <div class="col-md-6">
+                                            <input type="text" asp-for="@Model.meat.Error_msg" class="form-control">
+                                        </div>
+                                        <label asp-for="@Model.meat.Error_msg" class="col-md-4 col-form-label">Текст помилки(закінчилось, закінчилась...)</label>
+                                        <span asp-validation-for="@Model.meat.Error_msg"></span>
+                                    </div>
+                                    <div class="form-group row mb-3">
+                                        <div class="col-md-6">
+                                            <input type="text" asp-for="@Model.category.CategoryName" class="form-control">
+                                        </div>
+                                        <label asp-for="@Model.category.CategoryName" class="col-md-4 col-form-label">Назва категорії</label>
+                                        <span asp-validation-for="@Model.category.CategoryName"></span>
+                                    </div>
+                                    <div class="col-md-6 offset-md-4">
+                                        <button type="submit" class="btn btn-primary">Додати</button>
+                                    </div>
+                            </form>
+                        </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+@if (ViewBag.JavaScriptFunction != null)
+{
+    <script type="text/javascript">
+        @Html.Raw(ViewBag.JavaScriptFunction)
+    </script>
+}
+
+@section scripts{}
+
+

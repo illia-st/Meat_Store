@@ -1,0 +1,59 @@
+﻿@model Meat
+<script type="text/javascript">
+    function func1(number) {
+        var digit = new String();
+        if(number.length == 1){
+            digit = number;
+        }
+        else{
+            digit = number[1];
+        }
+        if (digit == "1") {
+            document.getElementById(@Model.Portion.ToString().Trim()).innerHTML = "порція";
+            return;
+        }
+        if (digit > "1" && digit < "5") {
+            document.getElementById(@Model.Portion.ToString().Trim()).innerHTML = "порції";
+            return;
+        }
+        document.getElementById(@Model.Portion.ToString().Trim()).innerHTML = "порцій";
+    }
+    function func2(number) {
+        var digit = new String();
+        if(number.length == 1){
+            digit = number;
+        }
+        else{
+            digit = number[1];
+        }
+        if (digit == "1") {
+            document.getElementById(@Model.SizeOfPortion.ToString().Trim()).innerHTML = "шматочка";
+            return;
+        }
+        document.getElementById(@Model.SizeOfPortion.ToString().Trim()).innerHTML = "шматочків";
+    }
+</script>
+<div class="container">
+        <div class="row">
+            <div class="col-5">
+                <img class="infoimg" src="@Model.Img" alt="@Model.Name"/>
+            </div>
+            <div class="col-7" style="text-align: right;">
+                <div class="infopos">
+                    <p><h1>@Model.Name</h1></p>
+                    <p>@Model.LongDesc.</p>
+                    <p>Порція складається з @Model.SizeOfPortion <a id="@Model.SizeOfPortion.ToString().Trim()"></a>.</p>
+                    <p>В наявності @Model.Portion <a id="@Model.Portion.ToString().Trim()"></a>.</p>
+                    @(User.Identity.IsAuthenticated){
+                        <p><a class="btn btn-light" asp-controller="Favourite" asp-action="AddToFavourite"
+                         onclick="AjaxFormSubmit()">Додати до улюблених</a></p>
+                    }
+                    <p><a class="btn btn-warning" asp-conоtroller="ShopCart" asp-action="AddToShopCart" 
+                            asp-route-id="@Model.Id" >Додати до кошика</a></p>
+                </div>
+            </div>
+    </div>
+</div>
+<script type="text/javascript">func1("@Model.Portion.ToString().Trim()"); func2("@Model.SizeOfPortion.ToString().Trim()")</script>
+
+@section scripts{}

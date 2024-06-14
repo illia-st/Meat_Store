@@ -1,7 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
+using System.ComponentModel.DataAnnotations;
 
-namespace Meat_Store.sakila
+namespace Meat_Store.Models
 {
     public partial class Order
     {
@@ -10,17 +10,47 @@ namespace Meat_Store.sakila
             OrderDetails = new HashSet<OrderDetail>();
         }
 
+        [BindNever]
         public int Id { get; set; }
+        
+        [StringLength(50)]
+        [Required(ErrorMessage = "Це поле обов'язкове")]
         public string Name { get; set; } = null!;
+
+        
+        [StringLength(50)]
+        [Required(ErrorMessage = "Це поле обов'язкове")]
         public string Surname { get; set; } = null!;
+        
         public int DeliveryId { get; set; }
+        
+        [StringLength(50)]
+        [Required(ErrorMessage = "Це поле обов'язкове")]
         public string? PhoneNumber { get; set; }
-        public string? Email { get; set; }
+
+        [StringLength(50)]
+        [Required(ErrorMessage = "Це поле обов'язкове")]
+        public string Email { get; set; } = null!;
+        
+        [BindNever]
+        [ScaffoldColumn(false)]
         public DateTime OrderTime { get; set; }
-        public int UserId { get; set; }
+        
+        public string? UserId { get; set; }
 
         public virtual Delivery Delivery { get; set; } = null!;
-        public virtual User User { get; set; } = null!;
+        
         public virtual ICollection<OrderDetail> OrderDetails { get; set; }
+
+        public Order Clone()
+        {
+            return new Order()
+            {
+                Name = (string)this.Name.Clone(),
+                Surname = (string)this.Surname.Clone(),
+                PhoneNumber = (string)this.PhoneNumber.Clone(),
+                Email = (string)this.Email.Clone(),
+            };
+        }
     }
 }

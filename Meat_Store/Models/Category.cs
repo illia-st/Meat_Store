@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Meat_Store.sakila
+namespace Meat_Store.Models
 {
     public partial class Category
     {
@@ -13,6 +13,7 @@ namespace Meat_Store.sakila
         public int Id { get; set; }
         public string CategoryName { get; set; } = null!;
         public string Description { get; set; } = null!;
+        public string Img { get; set; }
 
         public virtual ICollection<Meat> Meats { get; set; }
     }

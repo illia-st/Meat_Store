@@ -1,0 +1,84 @@
+﻿<div>
+    <h3>Оберіть Excel-файл</h3>
+    @using(Html.BeginForm("Import", "Categories", FormMethod.Post, new {enctype = "multipart/form-data", id = "frm-excel" }))
+    {
+        <div>
+            Завантажте Excel файл, щоб проаналізувати
+        </div>
+        <div>
+        <input type="file" name="fileExcel" id="fileExcel"/>
+            <div>
+                <input type="submit" value="Завантажити" />
+            </div>
+        </div>
+    }
+</div>
+
+<div>
+    <h3>Завантажити інформацію у файл</h3>
+    <a asp-action="Export">Завантажити файл</a>
+</div>
+
+
+<div class="row">
+    <div class="col" id="chart1"></div>
+    <div class="col" id="chart2"></div>
+</div>
+<div class="row" style="text-align:center;">
+    <div class="col" id="chart3"></div>
+</div>
+@section scripts{
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script>
+        google.charts.load('current', {'packages':['corechart']});
+        google.charts.setOnLoadCallback(drawChart);
+
+
+            function drawChart(){
+                $.get('/api/Chart/JsonData', function(JsonData){
+                        data = google.visualization.arrayToDataTable(JsonData, false);
+                        var option= {
+                            title: "Співвідношення товарів та категорій",
+                            width: 500,
+                            height: 400
+                        };
+                        chart = new google.visualization.PieChart(document.getElementById('chart1'));
+                        chart.draw(data, option);
+                })
+            }
+    </script>
+    <script>
+        google.charts.load('current', {'packages':['corechart']});
+        google.charts.setOnLoadCallback(drawChart);
+
+
+            function drawChart(){
+                $.get('/api/Chart/JsonData2', function(JsonData2){
+                        data = google.visualization.arrayToDataTable(JsonData2, false);
+                        var option= {
+                            title: "Співвідношення типів отримань та замовлень",
+                            width: 500,
+                            height: 400
+                        };
+                        chart = new google.visualization.PieChart(document.getElementById('chart2'));
+                        chart.draw(data, option);
+                })
+            }
+    </script>
+     <script>
+        google.charts.load('current', {'packages':['corechart']});
+        google.charts.setOnLoadCallback(drawChart);
+            function drawChart(){
+                $.get('/api/Chart/AmountOfProduct', function(AmountOfProduct){
+                        data = google.visualization.arrayToDataTable(AmountOfProduct, false);
+                        var option= {
+                            title: "Співвідношення кількості товару за категоріями та загальною кількістю наявного товару",
+                            width: 500,
+                            height: 400
+                        };
+                        chart = new google.visualization.PieChart(document.getElementById('chart3'));
+                        chart.draw(data, option);
+                })
+            }
+    </script>
+}
